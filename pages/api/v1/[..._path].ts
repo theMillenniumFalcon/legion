@@ -3,6 +3,7 @@ import { ApiMethod } from '@prisma/client';
 import axios from 'axios';
 import { URL } from 'url';
 
+import { middlewareRatelimit } from '../../../lib/middlewares';
 import type { QueryParams, ExpandedHeaders } from './_types';
 
 import getApiRoute from '../../../lib/internals/get-api-route';
@@ -24,6 +25,9 @@ const runMiddleware = (req: NextApiRequest, res: NextApiResponse, fn: Function):
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // Get ApiRoute object from database
     const { apiRoute, path } = await runMiddleware(req, res, getApiRoute)
+
+    // Middleware plugins
+    await runMiddleware(req, res, middlewareRatelimit(apiRoute))
 
     // Request preparation
     const requestUrl = new URL(`${apiRoute.apiUrl}/${path.join('/')}`)
@@ -55,7 +59,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         sendResponse(res, apiResponse)
     } catch (err) {
         if (axios.isAxiosError(err)) {
-            console.log("Axios err", err)
+            console.log("Axios error", err)
             sendResponse(res, err.response)
         } else {
             console.log("An error occurred!", err)
