@@ -5,10 +5,11 @@ import { URL } from 'url';
 
 import { middlewareRatelimit, middlewareRestriction } from '../../../lib/middlewares';
 import type { QueryParams, ExpandedHeaders } from './_types';
+import { prisma } from '../../../lib/prisma';
 
 import getApiRoute from '../../../lib/internals/get-api-route';
 import { sendResponse } from '../../../lib/internals/send-response';
-import { addQueryParams, expandObjectEntries, mergeHeaders, substituteSecrets } from '../../../lib/internals/utils';
+import { addQueryParams, expandObjectEntries, mergeHeaders, substituteSecrets, movingAverage } from '../../../lib/internals/utils';
 import { decryptSecret } from '../../../lib/internals/secrets';
 
 const runMiddleware = (req: NextApiRequest, res: NextApiResponse, fn: Function): Promise<any> => {
@@ -57,6 +58,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Request made
     try {
+        const startTime = performance.now()
         const apiResponse = await axios.request({
             method: apiRoute.method,
             url: requestUrl.toString(),
@@ -68,13 +70,18 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
             data: apiRoute.method === ApiMethod.GET ? undefined : req.body,
         })
+        const timeTaken = performance.now() - startTime
+        const newAverage = movingAverage(apiRoute, timeTaken)
 
         // Response preparation
         sendResponse(res, apiResponse)
+
+        await prisma.$executeRaw`UPDATE "public"."ApiRoute" SET "successes" = "successes" + 1, "avgResponseMs" = ${newAverage} WHERE "public"."ApiRoute"."id" = ${apiRoute.id}`
     } catch (err) {
         if (axios.isAxiosError(err)) {
             console.log("Axios error", err)
             sendResponse(res, err.response)
+            await prisma.$executeRaw`UPDATE "public"."ApiRoute" SET "fails" = "fails" + 1 WHERE "public"."ApiRoute"."id" = ${apiRoute.id}`
         } else {
             console.log("An error occurred!", err)
             res.status(500).send("Error occurred")

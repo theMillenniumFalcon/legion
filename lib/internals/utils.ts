@@ -1,6 +1,7 @@
 import type { NextApiResponse } from 'next';
 import type { OutgoingHttpHeaders } from 'http';
 import { render } from 'micromustache';
+import type { ApiRoute } from '@prisma/client';
 
 import { QueryParams, ExpandedHeaders } from "../../pages/api/v1/_types";
 
@@ -50,7 +51,7 @@ export function expandObjectEntries(object: { [key: string]: string | string[] }
 }
 
 // calcuulate a moving average
-export const movingAverage = (apiRoute: any, timeTaken: number) => {
+export const movingAverage = (apiRoute: ApiRoute, timeTaken: number) => {
     return Math.round((apiRoute.avgResponseMs * (apiRoute.successes) + timeTaken) / (apiRoute.successes + 1))
 }
 
