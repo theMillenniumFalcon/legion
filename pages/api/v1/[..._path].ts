@@ -8,7 +8,8 @@ import type { QueryParams, ExpandedHeaders } from './_types';
 
 import getApiRoute from '../../../lib/internals/get-api-route';
 import { sendResponse } from '../../../lib/internals/send-response';
-import { addQueryParams, expandObjectEntries, mergeHeaders } from '../../../lib/internals/utils';
+import { addQueryParams, expandObjectEntries, mergeHeaders, substituteSecrets } from '../../../lib/internals/utils';
+import { decryptSecret } from '../../../lib/internals/secrets';
 
 const runMiddleware = (req: NextApiRequest, res: NextApiResponse, fn: Function): Promise<any> => {
     return new Promise((resolve, reject) => {
@@ -38,17 +39,21 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await runMiddleware(req, res, middlewareRestriction(apiRoute))
     await runMiddleware(req, res, middlewareRatelimit(apiRoute))
 
+    // Decrypt the project secrets
+    const secrets = Object.fromEntries(apiRoute.project.Secret.map(({ name, secret }) => [name, decryptSecret(secret)]))
+
     // Request preparation
     const requestUrl = new URL(`${apiRoute.apiUrl}/${path.join('/')}`)
     const currentQueryParams = expandObjectEntries(req.query)
+
     // Add query params
-    addQueryParams(requestUrl, apiRoute.queryParams as QueryParams)
+    addQueryParams(requestUrl, substituteSecrets(apiRoute.queryParams as QueryParams, secrets))
     addQueryParams(requestUrl, currentQueryParams)
 
     // Add request headers
     delete req.headers.host
     const currentHeaders: ExpandedHeaders = expandObjectEntries(req.headers)
-    const requestHeaders = mergeHeaders(apiRoute.headers as ExpandedHeaders, currentHeaders)
+    const requestHeaders = mergeHeaders(substituteSecrets(apiRoute.headers as ExpandedHeaders, secrets), currentHeaders)
 
     // Request made
     try {

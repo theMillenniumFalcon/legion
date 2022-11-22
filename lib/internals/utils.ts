@@ -1,5 +1,6 @@
-import { NextApiResponse } from 'next';
+import type { NextApiResponse } from 'next';
 import type { OutgoingHttpHeaders } from 'http';
+import { render } from 'micromustache';
 
 import { QueryParams, ExpandedHeaders } from "../../pages/api/v1/_types";
 
@@ -25,9 +26,14 @@ export const mergeHeaders = (...manyHeaders: ExpandedHeaders[]): Record<string, 
 
 // apply all headers to the response object
 export const setAllHeaders = (res: NextApiResponse, headers: OutgoingHttpHeaders) => {
-    Object.entries(headers).forEach(([key, value]) => {
-        value && res.setHeader(key, value)
-    })
+    Object.entries(headers)
+        .filter(([key]) => {
+            // Remove access-control headers from API response as custom ones will be added by "Restriction" middleware
+            return !key.toLowerCase().startsWith('access-control-');
+        })
+        .forEach(([key, value]) => {
+            value && res.setHeader(key, value)
+        })
 }
 
 // return all object entries with values as arrays
@@ -41,4 +47,18 @@ export function expandObjectEntries(object: { [key: string]: string | string[] }
     }
 
     return result
+}
+
+// calcuulate a moving average
+export const movingAverage = (apiRoute: any, timeTaken: number) => {
+    return Math.round((apiRoute.avgResponseMs * (apiRoute.successes) + timeTaken) / (apiRoute.successes + 1))
+}
+
+// Substitues the values of secrets in the query params or headers
+export const substituteSecrets = (query: QueryParams | ExpandedHeaders, secrets: Record<string, string>) => {
+    for (const entry of query) {
+        entry[1] = render(entry[1], secrets)
+    }
+
+    return query
 }
