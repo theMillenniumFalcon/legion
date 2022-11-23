@@ -2,6 +2,7 @@ import { ApiMethod, ApiRoute } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { OutgoingHttpHeaders } from 'http';
 import getStream from 'get-stream';
+import { Readable } from 'stream';
 
 import { client } from '../redis';
 import { setAllHeaders } from '../internals/utils';
@@ -33,8 +34,10 @@ export const cache = (apiRoute: ApiRoute) => {
             const headers: OutgoingHttpHeaders = JSON.parse(cachedHeaders as string)
 
             setAllHeaders(res, headers)
-            res.setHeader('cache-control', `max-age=${Math.max(0, cacheAge as number)}`)
-            res.status(200).send(cachedResult)
+            res
+                .setHeader('cache-control', `max-age=${Math.max(0, cacheAge as number)}`)
+                .status(200)
+            Readable.from(cachedResult as string).pipe(res)
             return
         }
 
