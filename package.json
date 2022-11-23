@@ -28,6 +28,7 @@
     "prisma": "^3.4.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.39.5",
     "remove": "^0.1.5",
     "request-ip": "^3.3.0",
     "typescript": "4.9.3"
