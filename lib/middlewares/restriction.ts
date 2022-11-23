@@ -1,6 +1,5 @@
 import cors, { CorsOptions } from "cors";
 import { IpFilter } from 'express-ipfilter';
-import { NextApiRequest, NextApiResponse } from "next";
 
 const createCorsOptions = (apiRoute: any): CorsOptions => {
     return {

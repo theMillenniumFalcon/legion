@@ -22,6 +22,7 @@ export default async function getApiRoute(req: NextApiRequest, res: NextApiRespo
                     },
                 },
             },
+            rejectOnNotFound: true
         })
 
         req.query = query
