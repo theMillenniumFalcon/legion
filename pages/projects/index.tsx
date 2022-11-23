@@ -139,7 +139,7 @@ const Projects: React.FC<projectsProps> = ({ projects }) => {
 
                         <ModalFooter>
                             <Button type="submit" colorScheme="twitter" bg="twitter.400" width="full" isLoading={creatingProject}>
-                                Create project
+                                Create project ›
                             </Button>
                         </ModalFooter>
                     </form>
