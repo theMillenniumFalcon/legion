@@ -8,7 +8,7 @@ RUN npm run build
 
 EXPOSE 3000
 
-COPY ../scripts/start.sh ./
-RUN chmod +x ../scripts/start.sh
+COPY ./scripts/start.sh ./
+RUN chmod +x ./scripts/start.sh
 
-CMD ["sh", "../scripts/start.sh"]
+CMD ["sh", "./scripts/start.sh"]
