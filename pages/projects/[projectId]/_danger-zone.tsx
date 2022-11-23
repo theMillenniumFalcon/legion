@@ -11,7 +11,7 @@ interface dangerzoneProps {
     [key: string]: any
 }
 
-export const DangerZone: React.FC<dangerzoneProps> = ({
+const DangerZone: React.FC<dangerzoneProps> = ({
     onDelete,
     buttonText,
     children,
@@ -50,3 +50,5 @@ export const DangerZone: React.FC<dangerzoneProps> = ({
         </Box>
     )
 }
+
+export default DangerZone

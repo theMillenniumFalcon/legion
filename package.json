@@ -15,6 +15,7 @@
     "@chakra-ui/react": "^2.4.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@heroicons/react": "^2.0.13",
     "@prisma/client": "^4.6.1",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",

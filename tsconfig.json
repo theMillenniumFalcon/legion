@@ -24,9 +24,6 @@
             "@/components": [
                 "./components/index"
             ],
-            "@/components/*": [
-                "./components/*"
-            ],
             "@/lib/*": [
                 "./lib/*"
             ]
