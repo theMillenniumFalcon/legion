@@ -25,6 +25,7 @@
     "framer-motion": "^6.5.1",
     "ioredis": "^5.2.4",
     "micromustache": "^8.0.3",
+    "nanoid": "^4.0.0",
     "next": "13.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
