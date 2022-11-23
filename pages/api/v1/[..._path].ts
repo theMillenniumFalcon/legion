@@ -12,7 +12,7 @@ import { sendResponse } from '../../../lib/internals/send-response';
 import { addQueryParams, expandObjectEntries, mergeHeaders, substituteSecrets, movingAverage } from '../../../lib/internals/utils';
 import { decryptSecret } from '../../../lib/internals/secrets';
 
-const runMiddleware = (req: NextApiRequest, res: NextApiResponse, fn: Function): Promise<any> => {
+function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: Function): Promise<any> {
     return new Promise((resolve, reject) => {
         fn(req, res, (result: any) => {
             if (result instanceof Error) {
@@ -25,7 +25,7 @@ const runMiddleware = (req: NextApiRequest, res: NextApiResponse, fn: Function):
     })
 }
 
-export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Get ApiRoute object from database
     const { apiRoute, path } = await runMiddleware(req, res, getApiRoute)
 
