@@ -17,7 +17,7 @@ import {
 
 interface mockdeploymentBannerProps { }
 
-export const MockDeploymentBanner: React.FC<mockdeploymentBannerProps> = (props) => {
+export const MockDeploymentBanner: React.FC<mockdeploymentBannerProps> = () => {
     const [modalOpen, setModalOpen] = useState(false)
 
     return (
