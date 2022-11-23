@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { ApiMethod } from '@prisma/client';
 import axios from 'axios';
 import { URL } from 'url';
+import { performance } from 'perf_hooks';
+import { render } from 'micromustache';
 
 import { middlewareRatelimit, middlewareRestriction, middlewareCache } from '../../../lib/middlewares';
 import type { QueryParams, ExpandedHeaders } from './_types';
@@ -41,9 +43,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Decrypt the project secrets
     const secrets = Object.fromEntries(apiRoute.project.Secret.map(({ name, secret }) => [name, decryptSecret(secret)]))
+    const apiUrl = encodeURI(render(decodeURI(apiRoute.apiUrl), secrets))
 
     // Request preparation
-    const requestUrl = new URL(`${apiRoute.apiUrl}/${path.join('/')}`)
+    const requestUrl = new URL(`${apiUrl}/${path.join('/')}`)
     const currentQueryParams = expandObjectEntries(req.query)
 
     // Add query params
