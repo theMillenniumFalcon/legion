@@ -17,7 +17,7 @@ const createCorsOptions = (apiRoute: any): CorsOptions => {
 
 // Restricts the IP addresses that can make requests to the endpoint
 export const middlewareRestriction = (apiRoute: any): Function => {
-    if (!apiRoute.restriction) return (req: NextApiRequest, res: NextApiResponse, next: Function) => next()
+    if (!apiRoute.restriction) return cors()
 
     switch (apiRoute.restriction) {
         case 'IP':

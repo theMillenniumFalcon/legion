@@ -99,7 +99,7 @@ const Project: React.FC<projectProps> = ({ project, stats }) => {
     return (
         <>
             <Head>
-                <title>{projectName} | Diode 🔌</title>
+                <title>{projectName} | legion</title>
             </Head>
             <BackLink>All Projects</BackLink>
             <Flex justifyContent="space-between">
