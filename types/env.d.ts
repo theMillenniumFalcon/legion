@@ -5,6 +5,7 @@ declare global {
       REDIS_URL: string;
       SECRETS_KEY: string;
       SECRETS_IV: string;
+      NEXT_PUBLIC_MOCK_DEPLOYMENT: string;
     }
   }
 }

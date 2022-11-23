@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import requestIp from 'request-ip';
 
-import { redis } from '../redis';
+import { client } from '../redis';
 
 export type RateLimitingOptions = {
     windowSize: number,
@@ -18,10 +18,10 @@ export const rateLimit = (apiRoute: any) => {
         }
 
         const key = `${apiRoute.id}:${requestIp.getClientIp(req)}`
-        const requests = await redis.incr(key)
+        const requests = await client.incr(key)
 
         if (requests === 1) {
-            await redis.expire(key, rateLimiting.windowSize)
+            await client.expire(key, rateLimiting.windowSize)
         }
 
         if (requests > rateLimiting.maxRequests) {

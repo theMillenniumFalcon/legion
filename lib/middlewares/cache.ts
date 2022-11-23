@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import type { OutgoingHttpHeaders } from 'http';
 import getStream from 'get-stream';
 
-import { redis } from '../redis';
+import { client } from '../redis';
 import { setAllHeaders } from '../internals/utils';
 
 export type CachingOptions = {
@@ -22,7 +22,7 @@ export const cache = (apiRoute: ApiRoute) => {
 
         const key = `cache:${apiRoute.method}:${req.url}`
 
-        const [[cachedHeadersError, cachedHeaders], [cacheAgeError, cacheAge], [cachedResultError, cachedResult]] = await redis.pipeline()
+        const [[cachedHeadersError, cachedHeaders], [cacheAgeError, cacheAge], [cachedResultError, cachedResult]] = await client.pipeline()
             .get(`${key}:headers`)
             .ttl(`${key}:headers`)
             .getBuffer(`${key}:response`)
@@ -48,7 +48,7 @@ export const cache = (apiRoute: ApiRoute) => {
                 const headers = JSON.stringify(res.getHeaders())
                 const buffer = await getStream.buffer(apiData)
 
-                await redis
+                await client
                     .pipeline()
                     .setex(`${key}:headers`, duration, headers)
                     .setex(`${key}:response`, duration, buffer)
