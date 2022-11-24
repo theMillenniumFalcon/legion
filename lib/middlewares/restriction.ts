@@ -1,32 +1,36 @@
-import cors, { CorsOptions } from "cors";
 import { IpFilter } from 'express-ipfilter';
+import cors, { CorsOptions } from 'cors';
+import { ApiRouteWithMiddlewares } from '../../pages/api/v1/_types';
 
-export interface RestrictionOptions {
+export interface RestrictionOptions extends MiddlewareOptions {
     type: 'HTTP' | 'IP'
     allowedOrigins: string[]
     allowedIps: string[]
 }
 
-const createCorsOptions = (apiRoute: any): CorsOptions => {
+function createCorsOptions(apiRoute: ApiRouteWithMiddlewares): CorsOptions {
+    const { allowedOrigins } = apiRoute.restriction
     return {
         origin(origin: string, callback: Function) {
-            if (apiRoute.allowedOrigins.indexOf(origin) !== -1) {
+            if (allowedOrigins.indexOf(origin) !== -1) {
                 callback(null, true)
             } else {
                 callback(new Error("Not allowed by CORS"), false)
             }
         },
-        methods: apiRoute.method
+        methods: apiRoute.method,
     }
 }
 
-// Restricts the IP addresses that can make requests to the endpoint
-export const middlewareRestriction = (apiRoute: any): Function => {
-    if (!apiRoute.restriction) return cors()
+// Restricts the Origins or IP addresses that can make requests to the endpoint
+export const restriction = (apiRoute: ApiRouteWithMiddlewares): Function => {
+    // No API restriction
+    const options = apiRoute.restriction
+    if (!options.enabled) return cors()
 
-    switch (apiRoute.restriction) {
+    switch (options.type) {
         case 'IP':
-            return IpFilter(apiRoute.allowedIps, { mode: 'allow' })
+            return IpFilter(options.allowedIps, { mode: 'allow' })
         case 'HTTP':
             return cors(createCorsOptions(apiRoute))
         default:

@@ -367,7 +367,7 @@ const ApiRoutePage = ({ apiRoute }: Props) => {
                                     You can refer to secrets in value field using <Code>{"{{ SECRET_NAME }}"}</Code>
                                 </HelpText>
                                 {
-                                    queryParamFields.map((field, idx) => (
+                                    queryParamFields.map(({ field, idx }: any) => (
                                         <QueryParamInput
                                             key={field.id}
                                             keyProps={register(`queryParams.${idx}.name`)}

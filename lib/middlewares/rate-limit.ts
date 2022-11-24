@@ -1,18 +1,19 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from 'next';
 import requestIp from 'request-ip';
+import { ApiRouteWithMiddlewares } from '../../pages/api/v1/_types';
 
 import { client } from '../redis';
 
-export type RateLimitingOptions = {
+export interface RateLimitingOptions extends MiddlewareOptions {
     windowSize: number,
     maxRequests: number
 }
 
-// rate limits the number of requests
-export const rateLimit = (apiRoute: any) => {
+// Limits the number of requests that can be made within a specified time interval
+export function rateLimit(apiRoute: ApiRouteWithMiddlewares) {
     return async (req: NextApiRequest, res: NextApiResponse, next: Function) => {
         const rateLimiting = apiRoute.rateLimiting as RateLimitingOptions
-        if (Object.keys(rateLimiting).length === 0) {
+        if (!rateLimiting.enabled) {
             next()
             return
         }
