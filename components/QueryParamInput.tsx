@@ -1,21 +1,18 @@
 import React from 'react';
-import { Flex, Input, IconButton } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
-import { ChangeEventHandler, MouseEventHandler } from 'react';
+import { Flex, Input, IconButton, InputProps } from '@chakra-ui/react';
+import { XIcon } from '@heroicons/react/outline';
+import { MouseEventHandler } from 'react';
+import { SecretInput, secretinputProps } from './SecretInput';
 
 interface queryParaminputProps {
-    keyVal: string
-    valueVal: string
-    onKeyChange: ChangeEventHandler<HTMLInputElement>
-    onValueChange: ChangeEventHandler<HTMLInputElement>
+    keyProps: InputProps
+    valueProps: secretinputProps
     onRemove: MouseEventHandler<HTMLButtonElement>
 }
 
 export const QueryParamInput: React.FC<queryParaminputProps> = ({
-    keyVal,
-    valueVal,
-    onKeyChange,
-    onValueChange,
+    keyProps,
+    valueProps,
     onRemove
 }) => {
     return (
@@ -23,9 +20,8 @@ export const QueryParamInput: React.FC<queryParaminputProps> = ({
             alignItems="center"
             justifyContent="space-between"
             border="1px"
-            borderColor="gray.200"
-            py="3"
-            px="6"
+            borderColor="gray.100"
+            p="3"
             bg="white"
             _first={{ roundedTop: "md" }}
             _notFirst={{ mt: -1 }}
@@ -34,20 +30,22 @@ export const QueryParamInput: React.FC<queryParaminputProps> = ({
             <Input
                 placeholder="Field name"
                 required
-                value={keyVal}
-                onChange={onKeyChange}
+                borderColor="gray.200"
+                borderRightRadius="none"
+                borderRightWidth="0"
+                {...keyProps}
             />
-            <Input
-                placeholder="Field value"
-                mx="4"
-                value={valueVal}
-                onChange={onValueChange}
+            <SecretInput
+                containerProps={{ borderColor: "gray.200", borderLeftRadius: "none", mr: "3" }}
+                inputProps={{ placeholder: "Field value" }}
+                {...valueProps}
             />
             <IconButton
-                icon={<DeleteIcon w={3} h={3} />}
+                icon={<XIcon width="16" />}
+                variant="ghost"
                 aria-label="Remove"
                 size="sm"
-                colorScheme="gray"
+                color="gray.500"
                 onClick={onRemove}
             />
         </Flex>

@@ -9,7 +9,7 @@ declare global {
     }
 
     interface MiddlewareOptions {
-        enabled: boolean;
+        enabled: boolean
     }
 }
 

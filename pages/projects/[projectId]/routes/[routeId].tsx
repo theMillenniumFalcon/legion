@@ -169,10 +169,12 @@ const ApiRoutePage = ({ apiRoute }: Props) => {
             },
         }
     })
+
     const { append: appendHeader, remove: removeHeader, fields: headerFields } = useFieldArray({
         control,
         name: 'headers',
     })
+
     const { append: appendQueryParam, remove: removeQueryParam, fields: queryParamFields } = useFieldArray({
         control,
         name: 'queryParams',
