@@ -5,7 +5,7 @@ import { URL } from 'url';
 import { performance } from 'perf_hooks';
 import { render } from 'micromustache';
 
-import { middlewareRatelimit, middlewareRestriction, middlewareCache } from '../../../lib/middlewares';
+import { rateLimit, cacheRead, restriction } from '../../../lib/middlewares';
 import type { QueryParams, ExpandedHeaders } from './_types';
 import { prisma } from '../../../lib/prisma';
 
@@ -37,9 +37,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Middleware plugins
-    await runMiddleware(req, res, middlewareRestriction(apiRoute))
-    await runMiddleware(req, res, middlewareRatelimit(apiRoute))
-    await runMiddleware(req, res, middlewareCache(apiRoute))
+    await runMiddleware(req, res, restriction(apiRoute))
+    await runMiddleware(req, res, rateLimit(apiRoute))
+    await runMiddleware(req, res, cacheRead(apiRoute))
 
     // Decrypt the project secrets
     const secrets = Object.fromEntries(apiRoute.project.Secret.map(({ name, secret }) => [name, decryptSecret(secret)]))

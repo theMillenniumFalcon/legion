@@ -1,4 +1,4 @@
-export { rateLimit as middlewareRatelimit } from './rate-limit';
-export { middlewareRestriction } from './restriction';
-export { cache as middlewareCache } from './cache';
-export { partialJsonQuery as middlewarejsonquery } from './partial-query';
+export { rateLimit } from './rate-limit';
+export { restriction } from './restriction';
+export { cacheRead, cacheWrite } from './cache';
+export { partialJsonQuery } from './partial-query';
