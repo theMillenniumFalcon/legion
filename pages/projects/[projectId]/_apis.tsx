@@ -23,7 +23,7 @@ import {
     Menu,
     MenuButton,
     MenuList,
-    MenuItem,
+    MenuItem
 } from '@chakra-ui/react';
 import { DuplicateIcon, TrashIcon, DotsVerticalIcon, PlusIcon } from '@heroicons/react/outline';
 import { useState } from 'react';

@@ -1,6 +1,12 @@
 import cors, { CorsOptions } from "cors";
 import { IpFilter } from 'express-ipfilter';
 
+export interface RestrictionOptions {
+    type: 'HTTP' | 'IP'
+    allowedOrigins: string[]
+    allowedIps: string[]
+}
+
 const createCorsOptions = (apiRoute: any): CorsOptions => {
     return {
         origin(origin: string, callback: Function) {

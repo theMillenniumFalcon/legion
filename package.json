@@ -28,6 +28,7 @@
     "get-stream": "^6.0.1",
     "ioredis": "^5.2.4",
     "ioredis-mock": "^8.2.2",
+    "json-mask": "^2.0.0",
     "micromustache": "^8.0.3",
     "nanoid": "^4.0.0",
     "next": "13.0.4",
