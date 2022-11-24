@@ -34,7 +34,7 @@ export const cacheRead = (apiRoute: ApiRouteWithMiddlewares) => {
 
         if (!cachedHeadersError && !cacheAgeError && !cachedResultError && cachedHeaders) {
             console.log("Cache middleware: HIT!")
-            const headers: OutgoingHttpHeaders = JSON.parse(cachedHeaders)
+            const headers: OutgoingHttpHeaders = JSON.parse(cachedHeaders as string)
 
             setAllHeaders(res, headers)
             res.setHeader('cache-control', `max-age=${Math.max(0, cacheAge)}`)
