@@ -1,4 +1,8 @@
 import { Box, Flex, Container, ChakraProvider } from '@chakra-ui/react';
+import '@fontsource/raleway/700.css';
+import '@fontsource/raleway/800.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
 
 import { Footer } from '../components/Footer';
 import { MockDeploymentBanner } from '../components/MockDeploymentBanner';

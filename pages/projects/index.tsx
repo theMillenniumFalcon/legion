@@ -80,7 +80,7 @@ const Projects: React.FC<projectsProps> = ({ projects }) => {
                 <title>Projects | legion</title>
             </Head>
             <Flex justifyContent="space-between">
-                <Heading as="h1" size="lg" fontWeight="800">Projects</Heading>
+                <Heading as="h1" size="lg" fontWeight="800" color="black">Projects</Heading>
                 <Button colorScheme="twitter" bg="twitter.400" rightIcon={<AddIcon w="3" h="3" />} onClick={() => setNewProjectOpen(true)}>
                     New Project
                 </Button>
