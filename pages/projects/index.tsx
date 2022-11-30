@@ -92,7 +92,7 @@ export default function Projects({ projects }: Props) {
       <Grid mt="16" gap="4" templateColumns="repeat(3, 1fr)">
         {projects.map((project) => (
           <NextLink href={`/projects/${project.id}`} key={project.id}>
-            <Link
+            <Box
               rounded="base"
               border="solid"
               borderWidth="1px"
@@ -100,26 +100,32 @@ export default function Projects({ projects }: Props) {
               px="8"
               py="4"
               _hover={{
-                textDecoration: "none",
                 shadow: "md",
                 transform: "scale(1.01)",
-              }}
-            >
-              <Text fontWeight="700" fontSize="xl" fontFamily="heading">
-                {project.name}
-              </Text>
-              <Text color="gray.500" fontSize="smaller" fontWeight="medium" mt="2">
-                {project._count.ApiRoute} API routes &bull; {project._count.Secret} Secrets
-              </Text>
-            </Link>
+              }}>
+              <Link
+                _hover={{
+                  textDecoration: "none"
+                }}
+              >
+                <Text fontWeight="700" fontSize="xl" fontFamily="heading">
+                  {project.name}
+                </Text>
+                <Text color="gray.500" fontSize="smaller" fontWeight="medium" mt="2">
+                  {project._count.ApiRoute} API routes &bull; {project._count.Secret} Secrets
+                </Text>
+              </Link>
+            </Box>
           </NextLink>
         ))}
       </Grid>
-      {projects.length === 0 && (
-        <Box mt="32" color="gray.600" fontWeight="600" textAlign="center">
-          You have not created any project. Let&apos;s create one!
-        </Box>
-      )}
+      {
+        projects.length === 0 && (
+          <Box mt="32" color="gray.600" fontWeight="600" textAlign="center">
+            You have not created any project. Let&apos;s create one!
+          </Box>
+        )
+      }
 
       <Modal isOpen={isNewProjectOpen} onClose={() => setNewProjectOpen(false)}>
         <ModalOverlay />

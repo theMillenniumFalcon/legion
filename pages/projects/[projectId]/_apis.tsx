@@ -173,46 +173,51 @@ export default function Apis({ project, ...props }: Props) {
         </Flex>
         <Box mt="8">
           {project.ApiRoute.map((api) => (
-            <NextLink href={`/projects/${project.id}/routes/${api.id}`} key={api.id}>
-              <Link
-                display="block"
-                border="1px"
-                borderColor="gray.200"
-                bg="white"
-                _first={{ roundedTop: "md" }}
-                _notFirst={{ mt: -1 }}
-                _last={{ roundedBottom: "md" }}
-                _hover={{ bg: "gray.50" }}
-              >
-                <Flex alignItems="center" py="3" px="6">
-                  <ApiMethodTag method={api.method} />
-                  <Text ml="4" fontWeight="600">{api.name}</Text>
-                  <Text ml="8" color="gray.500" fontSize="sm" textOverflow="ellipsis" maxW="400" whiteSpace="nowrap" overflowX="hidden">
-                    {decodeURI(api.apiUrl)}
-                  </Text>
-                  <Menu id="route-options" isLazy>
-                    <MenuButton
-                      as={IconButton}
-                      aria-label={`${api.name} options`}
-                      icon={<DotsVerticalIcon width="16" />}
-                      variant="ghost"
-                      size="sm"
-                      ml="auto"
-                      isLoading={api.id === deletingApi}
-                      onClick={e => e.stopPropagation()}
-                    />
-                    <MenuList minWidth="auto" fontSize="sm">
-                      <MenuItem icon={<DuplicateIcon width="16" />} onClick={(e) => openDuplicateApiModal(e, api)}>
-                        Duplicate
-                      </MenuItem>
-                      <MenuItem icon={<TrashIcon width="16" />} color="red.500" onClick={(e) => deleteApi(e, api.id, api.name)}>
-                        Delete
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>
-                </Flex>
-              </Link>
-            </NextLink>
+            <Flex justifyContent="space-between" alignItems="center">
+              <Box width="95%">
+                <NextLink href={`/projects/${project.id}/routes/${api.id}`} key={api.id}>
+                  <Link
+                    display="block"
+                    border="1px"
+                    borderColor="gray.200"
+                    bg="white"
+                    _first={{ roundedTop: "md" }}
+                    _notFirst={{ mt: -1 }}
+                    _last={{ roundedBottom: "md" }}
+                    _hover={{ bg: "gray.50" }}
+                  >
+                    <Flex alignItems="center" py="3" px="6">
+                      <ApiMethodTag method={api.method} />
+                      <Text ml="4" fontWeight="600">{api.name}</Text>
+                      <Text ml="8" color="gray.500" fontSize="sm" textOverflow="ellipsis" maxW="400" whiteSpace="nowrap" overflowX="hidden">
+                        {decodeURI(api.apiUrl)}
+                      </Text>
+
+                    </Flex>
+                  </Link>
+                </NextLink>
+              </Box>
+              <Menu id="route-options" isLazy>
+                <MenuButton
+                  as={IconButton}
+                  aria-label={`${api.name} options`}
+                  icon={<DotsVerticalIcon width="16" />}
+                  variant="ghost"
+                  size="sm"
+                  ml="auto"
+                  isLoading={api.id === deletingApi}
+                  onClick={e => e.stopPropagation()}
+                />
+                <MenuList minWidth="auto" fontSize="sm">
+                  <MenuItem icon={<DuplicateIcon width="16" />} onClick={(e) => openDuplicateApiModal(e, api)}>
+                    Duplicate
+                  </MenuItem>
+                  <MenuItem icon={<TrashIcon width="16" />} color="red.500" onClick={(e) => deleteApi(e, api.id, api.name)}>
+                    Delete
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
           ))}
           {!project.ApiRoute.length && (
             <Box mt="16" color="gray.600" fontWeight="600" textAlign="center">
