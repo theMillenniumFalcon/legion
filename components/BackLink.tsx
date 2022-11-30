@@ -1,14 +1,13 @@
-import React from 'react';
 import { Button } from '@chakra-ui/react';
-import { ChevronLeftIcon } from '@chakra-ui/icons';
+import { ChevronLeftIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 
-interface backlinkProps { }
+export default function BackLink(props) {
+  const router = useRouter();
 
-export const BackLink: React.FC<backlinkProps> = (props) => {
-    const router = useRouter()
-
-    return (
-        <Button variant="link" leftIcon={<ChevronLeftIcon width="16" />} onClick={router.back} {...props} />
-    )
+  return (
+    <div>
+      <Button variant="link" leftIcon={<ChevronLeftIcon width="16" />} onClick={router.back} {...props} />
+    </div>
+  )
 }

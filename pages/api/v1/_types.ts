@@ -1,17 +1,20 @@
-import { ApiRoute } from '@prisma/client';
-import { PartialQueryOptions } from '@/lib/middlewares/partial-query';
-import { CachingOptions } from '@/lib/middlewares/cache';
-import { RateLimitingOptions } from '@/lib/middlewares/rate-limit';
-import { RestrictionOptions } from '@/lib/middlewares/restriction';
+import { ApiRoute, Secret } from '@prisma/client';
+import { RestrictionOptions, RateLimitingOptions, CachingOptions, PartialQueryOptions } from '@/lib/middlewares';
 
-export type QueryParams = [string, string][]
+export type QueryParams = [string, string][];
 
-export type ExpandedHeaders = [string, string][]
+export type ExpandedHeaders = [string, string][];
 
 export type ApiRouteWithMiddlewares = Omit<ApiRoute, 'restriction' | 'rateLimiting' | 'caching' | 'partialQuery'> & {
-    restriction: RestrictionOptions
-    rateLimiting: RateLimitingOptions
-    caching: CachingOptions
-    partialQuery: PartialQueryOptions
-}
+  restriction: RestrictionOptions;
+  rateLimiting: RateLimitingOptions;
+  caching: CachingOptions;
+  partialQuery: PartialQueryOptions;
+};
 
+export type ApiRouteWithProjectSecrets = ApiRouteWithMiddlewares & {
+  project: {
+    id: string;
+    Secret: Secret[];
+  };
+};

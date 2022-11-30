@@ -1,12 +1,16 @@
-import React from 'react';
-import { Box, Link } from '@chakra-ui/react';
+import { Container, Flex, Link, Text } from '@chakra-ui/react';
 
-interface footerProps { }
-
-export const Footer: React.FC<footerProps> = (props) => {
-    return (
-        <Box mt="auto" textAlign="center" color="gray.600" {...props}>
-            Made by <Link href="https://themillenniumfalcon.github.io" fontWeight="500" color="green.500" isExternal>Nishank Priydarshi</Link>
-        </Box>
-    )
+export default function Footer(props) {
+  return (
+    <Container maxWidth="container.lg">
+      <Flex mt="auto" alignItems="center" justifyContent="space-between" textAlign="center" px="12" color="gray.500" height="16" {...props} fontSize="sm">
+        <Text mt="1">
+          Made by {' '}
+          <Link href="https://themillenniumfalcon.github.io" fontWeight="500" color="green.400" isExternal>Nishank Priydarshi</Link>
+          {' '}& {' '}
+          <Link href="https://www.instagram.com/nxmxn_21" fontWeight="500" color="green.400" isExternal>Naman Kumawat</Link>
+        </Text>
+      </Flex>
+    </Container>
+  );
 }

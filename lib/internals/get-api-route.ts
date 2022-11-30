@@ -1,34 +1,48 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from '../prisma';
+import { NextApiRequest, NextApiResponse } from 'next';
+import prisma from '../prisma';
 
 export default async function getApiRoute(req: NextApiRequest, res: NextApiResponse, next: Function) {
-    const { _path, ...query } = <{ _path: string[], [key: string]: string | string[] }>req.query
+  const { _path, ...query } = <{ _path: string[], [key: string]: string | string[] }>req.query;
 
-    if (_path.length === 0) {
-        res.status(400).send("API id is missing")
+  if (_path.length === 0) {
+    // Error
+    res.status(400).send("API id is missing");
+  }
+
+  const [apiId, ...remainingPath] = _path;
+  try {
+    // Fetch the API route details from DB (including project id and secret data)
+    const apiRoute = await prisma.apiRoute.findUnique({
+      where: {
+        id: apiId,
+      },
+      include: {
+        project: {
+          select: {
+            id: true,
+            Secret: true,
+          },
+        },
+      },
+      rejectOnNotFound: true,
+    });
+
+    // Replace the request query with the remaining query params so that _path is not misused
+    req.query = query;
+
+    /**
+     * Remove query params and headers if request data forwarding is disabled.
+     * No further middleware gets access to this data too.
+     */
+    if (!apiRoute.forwardRequestData) {
+      req.query = {};
+      req.headers = {};
+      req.rawHeaders = [];
     }
 
-    const [apiId, ...remainingPath] = _path
-    try {
-        const apiRoute = await prisma.apiRoute.findUnique({
-            where: {
-                id: apiId,
-            },
-            include: {
-                project: {
-                    select: {
-                        id: true,
-                        Secret: true,
-                    },
-                },
-            },
-            rejectOnNotFound: true
-        })
-
-        req.query = query
-        next({ apiRoute, path: remainingPath })
-    } catch (err) {
-        console.log(err)
-        return res.status(400).send("Invalid endpoint")
-    }
+    next({ apiRoute, path: remainingPath });
+  } catch(err) {
+    console.log(err);
+    return res.status(400).send("Invalid endpoint");
+  }
 }

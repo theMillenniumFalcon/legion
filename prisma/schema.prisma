@@ -34,16 +34,21 @@ model ApiRoute {
   projectId          String
   project            Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
   forwardRequestData Boolean   @default(true)
+
   // Restriction middleware config
   restriction Json @default("{}")
+
   // Rate Limiting middleware config
   rateLimiting Json @default("{}")
+
   // Caching middleware config
   caching Json @default("{}")
+
   // Analytics
   successes     Int @default(0)
   fails         Int @default(0)
   avgResponseMs Int @default(0)
+
   // Partial JSON query middleware config
   partialQuery Json @default("{}")
 }
@@ -53,5 +58,6 @@ model Secret {
   name      String
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
   @@unique([projectId, name])
 }

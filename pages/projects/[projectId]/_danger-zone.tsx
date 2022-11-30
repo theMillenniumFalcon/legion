@@ -1,54 +1,48 @@
-import React, { useState } from 'react';
-import { Box, Button, Flex } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
+import { Box, Flex, Button } from '@chakra-ui/react';
+import { TrashIcon } from '@heroicons/react/outline';
+import { SectionHeading } from '@/components';
+import { useState } from 'react';
 
-import { SectionHeading } from '../../../components/SectionHeading';
+export const getServerSideProps = () => ({ props: {} });
 
-interface dangerzoneProps {
-    onDelete: Function
-    buttonText: string
-    children?: React.ReactNode
-    [key: string]: any
-}
+type Props = {
+  onDelete: Function;
+  buttonText: string;
+  children?: React.ReactNode;
+  [key: string]: any;
+};
 
-const DangerZone: React.FC<dangerzoneProps> = ({
-    onDelete,
-    buttonText,
-    children,
-    ...props
-}) => {
-    const [deleting, setDeleting] = useState(false)
+export default function DangerZone({ onDelete, buttonText, children, ...props }: Props) {
+  const [deleting, setDeleting] = useState(false);
 
-    const deleteHandler = async () => {
-        if (deleting) return
+  const deleteHandler = async () => {
+    if (deleting) return;
 
-        try {
-            setDeleting(true)
-            await onDelete()
-        } finally {
-            setDeleting(false)
-        }
+    try {
+      setDeleting(true);
+      await onDelete();
+    } finally {
+      setDeleting(false);
     }
+  };
 
-    return (
-        <Box {...props}>
-            <Flex justifyContent="space-between">
-                <SectionHeading heading="🚨 Danger zone">
-                    {children}
-                </SectionHeading>
-                <Button
-                    colorScheme="red"
-                    color="red.500"
-                    variant="outline"
-                    rightIcon={<DeleteIcon w="3" h="3" />}
-                    onClick={deleteHandler}
-                    isLoading={deleting}
-                >
-                    {buttonText}
-                </Button>
-            </Flex>
-        </Box>
-    )
+  return (
+    <Box {...props}>
+      <Flex justifyContent="space-between">
+        <SectionHeading heading="🚨 Danger zone">
+          {children}
+        </SectionHeading>
+        <Button
+          colorScheme="red"
+          color="red.500"
+          variant="outline"
+          rightIcon={<TrashIcon width="16" />}
+          onClick={deleteHandler}
+          isLoading={deleting}
+        >
+          {buttonText}
+        </Button>
+      </Flex>
+    </Box>
+  )
 }
-
-export default DangerZone

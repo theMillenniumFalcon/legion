@@ -1,4 +1,3 @@
-import React from 'react';
 import type { ApiMethod, Project as ProjectType } from '@prisma/client';
 import type { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -6,122 +5,118 @@ import Head from 'next/head';
 import { Flex, Heading, Divider } from '@chakra-ui/react';
 import axios from 'axios';
 
-import { ApiStats } from '../../../components/ApiStats';
-import { BackLink } from '../../../components/BackLink';
-import { ConfirmDialogue } from '../../../components/ConfirmDialogue';
+import { ApiStats, BackLink, confirmDialog } from '@/components';
 import Apis from './_apis';
 import Secrets from './_secrets';
 import DangerZone from './_danger-zone';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 type ProjectData = (ProjectType & {
-    ApiRoute: {
-        id: string
-        name: string
-        apiUrl: string
-        method: ApiMethod
-        successes: number
-        fails: number
-    }[];
-    Secret: {
-        name: string
-    }[]
-})
+  ApiRoute: {
+    id: string;
+    name: string;
+    apiUrl: string;
+    method: ApiMethod;
+    successes: number;
+    fails: number;
+  }[];
+  Secret: {
+    name: string;
+  }[];
+});
 
 type ProjectStats = {
-    totalSuccesses: number
-    totalFails: number
-}
+  totalSuccesses: number;
+  totalFails: number;
+};
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const id = context.params.projectId as string
+  const id = context.params.projectId as string;
 
-    const project = await prisma.project.findUnique({
-        where: { id },
-        include: {
-            ApiRoute: {
-                select: {
-                    id: true,
-                    name: true,
-                    apiUrl: true,
-                    method: true,
-                    successes: true,
-                    fails: true,
-                },
-            },
-            Secret: {
-                select: {
-                    name: true,
-                }
-            },
+  const project = await prisma.project.findUnique({
+    where: { id },
+    include: {
+      ApiRoute: {
+        select: {
+          id: true,
+          name: true,
+          apiUrl: true,
+          method: true,
+          successes: true,
+          fails: true,
         },
-    })
-
-    if (project === null) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: "/404"
-            },
+      },
+      Secret: {
+        select: {
+          name: true,
         }
-    }
+      },
+    },
+  });
 
-    const stats: ProjectStats = {
-        totalSuccesses: !project ? 0 : project.ApiRoute.reduce((sum, api) => sum + api.successes, 0),
-        totalFails: !project ? 0 : project.ApiRoute.reduce((sum, api) => sum + api.fails, 0),
-    }
+  if (project === null) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/404"
+      },
+    };
+  }
 
-    return { props: { project, stats } }
+  const stats: ProjectStats = {
+    totalSuccesses: !project ? 0 : project.ApiRoute.reduce((sum, api) => sum + api.successes, 0),
+    totalFails: !project ? 0 : project.ApiRoute.reduce((sum, api) => sum + api.fails, 0),
+  };
+
+  return { props: { project, stats } };
 }
 
-interface projectProps {
-    project: ProjectData
-    stats: ProjectStats
-}
+type Props = {
+  project: ProjectData,
+  stats: ProjectStats,
+};
 
-const Project: React.FC<projectProps> = ({ project, stats }) => {
-    const router = useRouter()
-    const projectName = project.name + (!project.name.endsWith('project') ? ' project' : '')
+export default function Project({ project, stats }: Props) {
+  const router = useRouter();
+  const projectName = project.name + (!project.name.endsWith('project') ? ' project' : '');
 
-    const deleteProject = async () => {
-        const confirmed = await ConfirmDialogue({
-            title: `Delete ${projectName}`,
-            description: `Deleting this project will also delete all the API routes and Secrets in this project. This action is irreversible.`,
-            btnConfirmTxt: 'Delete project',
-        })
+  const deleteProject = async () => {
+    const confirmed = await confirmDialog({
+      title: `Delete ${projectName}`,
+      description: `Deleting this project will also delete all the API routes and Secrets in this project. This action is irreversible.`,
+      btnConfirmTxt: 'Delete project',
+    });
 
-        if (confirmed) {
-            await axios.delete(`/api/projects/${project.id}`)
-            router.replace('/projects');
-        }
+    if (confirmed) {
+      await axios.delete(`/api/projects/${project.id}`);
+      router.replace('/projects');
     }
+  };
 
-    return (
-        <>
-            <Head>
-                <title>{projectName} | legion</title>
-            </Head>
-            <BackLink>All Projects</BackLink>
-            <Flex justifyContent="space-between">
-                <Heading mt="4" as="h1" size="lg" fontWeight="800">{projectName}</Heading>
-                <ApiStats successes={stats.totalSuccesses} fails={stats.totalFails} />
-            </Flex>
+  return (
+    <>
+      <Head>
+        <title>{projectName} | legion</title>
+      </Head>
+      <BackLink>All Projects</BackLink>
+      <Flex justifyContent="space-between">
+        <Heading mt="4" as="h1" size="lg" fontWeight="800">{projectName}</Heading>
+        <ApiStats successes={stats.totalSuccesses} fails={stats.totalFails} />
+      </Flex>
 
-            <Apis mt="20" project={project} />
+      <Apis mt="20" project={project} />
 
-            <Divider my="20" />
+      <Divider my="20" />
 
-            <Secrets project={project} />
+      <Secrets project={project} />
 
-            <Divider my="20" />
+      <Divider my="20" />
 
-            <DangerZone mb="32" onDelete={deleteProject} buttonText="Delete project">
-                Deleting a project removes all the API routes and Secrets associated with it.
-                <br />
-                This action is irreverisble.
-            </DangerZone>
-        </>
-    )
+      <DangerZone mb="32" onDelete={deleteProject} buttonText="Delete project">
+        Deleting a project removes all the API routes and Secrets associated with it.
+        <br />
+        This action is irreverisble.
+      </DangerZone>
+    </>
+  );
 }
-
-export default Project
