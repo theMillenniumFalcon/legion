@@ -8,4 +8,4 @@
     - per_page: 10
     - offset: 0
     - query: san francisco
-  - Set a rate limiting and caching middleware in it
+  - Set rate limiting and caching middlewares in it

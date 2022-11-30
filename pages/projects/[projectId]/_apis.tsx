@@ -167,7 +167,7 @@ export default function Apis({ project, ...props }: Props) {
           <SectionHeading heading="🔌 API routes">
             API endpoints that are configured with legion.
           </SectionHeading>
-          <Button onClick={() => setShowCreationModal(true)} colorScheme="green" bg="green.400" rightIcon={<PlusIcon width="16" />}>
+          <Button onClick={() => setShowCreationModal(true)} colorScheme="twitter" bg="twitter.400" rightIcon={<PlusIcon width="16" />}>
             New API route
           </Button>
         </Flex>
@@ -260,7 +260,7 @@ export default function Apis({ project, ...props }: Props) {
             </ModalBody>
 
             <ModalFooter>
-              <Button type="submit" colorScheme="green" bg="green.400" width="full" isLoading={isCreatingApi}>
+              <Button type="submit" colorScheme="twitter" bg="twitter.400" width="full" isLoading={isCreatingApi}>
                 Create &amp; configure API route ›
               </Button>
             </ModalFooter>
@@ -288,7 +288,7 @@ export default function Apis({ project, ...props }: Props) {
             </ModalBody>
 
             <ModalFooter>
-              <Button type="submit" colorScheme="green" bg="green.400" width="full" isLoading={isDuplicatingApi}>
+              <Button type="submit" colorScheme="twitter" bg="twitter.400" width="full" isLoading={isDuplicatingApi}>
                 Duplicate &amp; configure API route ›
               </Button>
             </ModalFooter>

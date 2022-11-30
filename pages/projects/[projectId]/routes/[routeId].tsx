@@ -294,8 +294,8 @@ export default function ApiRoutePage({ apiRoute }: Props) {
             size="sm"
             ml="auto"
             rightIcon={<ClipboardCopyIcon width="16" />}
-            colorScheme="green"
-            bg="green.400"
+            colorScheme="twitter"
+            bg="twitter.400"
             flexShrink={0}
           >
             Copy URL
@@ -337,7 +337,7 @@ export default function ApiRoutePage({ apiRoute }: Props) {
                 <br />parameters and headers configured below.
               </HelpText>
             </FormLabel>
-            <Switch colorScheme="green" size="lg" {...register('forwardRequestData')} />
+            <Switch colorScheme="twitter" size="lg" {...register('forwardRequestData')} />
           </FormControl>
 
           <Accordion mt="8" allowMultiple>
@@ -350,8 +350,8 @@ export default function ApiRoutePage({ apiRoute }: Props) {
                     size="sm"
                     ml="auto"
                     mr="2"
-                    colorScheme="green"
-                    bg="green.400"
+                    colorScheme="twitter"
+                    bg="twitter.400"
                     onClick={(e) => {
                       e.stopPropagation();
                       appendQueryParam({ name: '', value: '' });
@@ -392,8 +392,8 @@ export default function ApiRoutePage({ apiRoute }: Props) {
                     size="sm"
                     ml="auto"
                     mr="2"
-                    colorScheme="green"
-                    bg="green.400"
+                    colorScheme="twitter"
+                    bg="twitter.400"
                     onClick={(e) => {
                       e.stopPropagation();
                       appendHeader({ name: '', value: '' });
@@ -483,13 +483,13 @@ export default function ApiRoutePage({ apiRoute }: Props) {
                 Restricts access to the API route only to some specific domains or IP addresses.
               </HelpText>
             </FormLabel>
-            <Switch colorScheme="green" size="lg" {...register('restriction.enabled')} />
+            <Switch colorScheme="twitter" size="lg" {...register('restriction.enabled')} />
           </FormControl>
           {isRestrictionsEnabled && (
             <Box width="95%" ml="auto">
               <FormControl display="flex" py="4" justifyContent="space-between" alignItems="center">
                 <FormLabel>Restriction type</FormLabel>
-                <RadioGroup experimental_spaceX="6" colorScheme="green">
+                <RadioGroup experimental_spaceX="6" colorScheme="twitter">
                   <Radio isRequired value="HTTP" {...register('restriction.type')}>Domains</Radio>
                   <Radio isRequired value="IP" {...register('restriction.type')}>IP addresses</Radio>
                 </RadioGroup>
@@ -542,7 +542,7 @@ export default function ApiRoutePage({ apiRoute }: Props) {
                 Limits the number of calls every IP address can make within a time interval.
               </HelpText>
             </FormLabel>
-            <Switch colorScheme="green" size="lg" {...register('rateLimiting.enabled')} />
+            <Switch colorScheme="twitter" size="lg" {...register('rateLimiting.enabled')} />
           </FormControl>
           {
             isRateLimitingEnabled && (
@@ -576,7 +576,7 @@ export default function ApiRoutePage({ apiRoute }: Props) {
                 Caches the result from origin endpoint and returns it for further calls within a time interval.
               </HelpText>
             </FormLabel>
-            <Switch colorScheme="green" size="lg" {...register('caching.enabled')} />
+            <Switch colorScheme="twitter" size="lg" {...register('caching.enabled')} />
           </FormControl>
           {
             isCachingEnabled && (
@@ -607,7 +607,7 @@ export default function ApiRoutePage({ apiRoute }: Props) {
                 <Link href="https://github.com/nemtsov/json-mask#syntax" color="green.500" isExternal>Syntax reference</Link>.
               </HelpText>
             </FormLabel>
-            <Switch colorScheme="green" size="lg" {...register('partialQuery.enabled')} />
+            <Switch colorScheme="twitter" size="lg" {...register('partialQuery.enabled')} />
           </FormControl>
         </Box>
 
@@ -617,8 +617,8 @@ export default function ApiRoutePage({ apiRoute }: Props) {
           position="fixed"
           right="16"
           bottom="8"
-          colorScheme="green"
-          bg="green.400"
+          colorScheme="twitter"
+          bg="twitter.400"
           shadow="lg"
           rightIcon={<CheckIcon width="16" />}
           isLoading={isSubmitting}

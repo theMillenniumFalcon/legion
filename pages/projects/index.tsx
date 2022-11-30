@@ -80,7 +80,7 @@ export default function Projects({ projects }: Props) {
       </Head>
       <Flex justifyContent="space-between">
         <Heading as="h1" size="lg" fontWeight="800">Projects</Heading>
-        <Button colorScheme="green" bg="green.400" rightIcon={<PlusIcon width="16" />} onClick={() => setNewProjectOpen(true)}>
+        <Button colorScheme="twitter" bg="twitter.400" rightIcon={<PlusIcon width="16" />} onClick={() => setNewProjectOpen(true)}>
           New Project
         </Button>
       </Flex>
@@ -144,7 +144,7 @@ export default function Projects({ projects }: Props) {
             </ModalBody>
 
             <ModalFooter>
-              <Button type="submit" colorScheme="green" bg="green.400" width="full" isLoading={creatingProject}>
+              <Button type="submit" colorScheme="twitter" bg="twitter.400" width="full" isLoading={creatingProject}>
                 Create project ›
               </Button>
             </ModalFooter>

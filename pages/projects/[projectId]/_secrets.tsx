@@ -96,7 +96,7 @@ export default function Secrets({ project, ...props }: Props) {
           <br />
           These are <strong>encrypted and stored</strong> on the database.
         </SectionHeading>
-        <Button colorScheme="green" bg="green.400" rightIcon={<PlusIcon width="16" />} onClick={() => setShowNewForm(true)}>
+        <Button colorScheme="twitter" bg="twitter.400" rightIcon={<PlusIcon width="16" />} onClick={() => setShowNewForm(true)}>
           New secret
         </Button>
       </Flex>
@@ -159,7 +159,7 @@ export default function Secrets({ project, ...props }: Props) {
                   </InputRightElement>
                 </InputGroup>
 
-                <Button type="submit" size="sm" ml="8" mr="2" px="6" colorScheme="green" bg="green.400" isLoading={creatingSecret}>
+                <Button type="submit" size="sm" ml="8" mr="2" px="6" colorScheme="twitter" bg="twitter.400" isLoading={creatingSecret}>
                   Save
                 </Button>
                 <Button type="button" size="sm" colorScheme="gray" px="6" onClick={closeCreation}>
