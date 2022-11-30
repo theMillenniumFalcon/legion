@@ -5,10 +5,8 @@ import '@fontsource/raleway/800.css';
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 
-import { Footer, MockDeploymentBanner } from '@/components';
+import { Footer } from '@/components';
 import theme from '@/lib/chakra-theme';
-
-const isMock = process.env.NEXT_PUBLIC_MOCK_DEPLOYMENT === "true";
 
 function App({ Component, pageProps }) {
   const [showChild, setShowChild] = useState(false)
@@ -24,7 +22,6 @@ function App({ Component, pageProps }) {
   } else {
     return (
       <ChakraProvider theme={theme}>
-        {isMock && <MockDeploymentBanner />}
         <Box bg="gray.100">
           <Container maxWidth="container.lg">
             <Flex
@@ -32,7 +29,7 @@ function App({ Component, pageProps }) {
               pt="16"
               pb="8"
               px="16"
-              minH={`calc(100vh - 4rem${isMock ? ' - 2rem' : ''})`}
+              minH={`calc(100vh - 4rem${' - 2rem'})`}
               shadow="base"
               bg="white"
               rounded="base"
