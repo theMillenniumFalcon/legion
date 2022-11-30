@@ -43,10 +43,10 @@ export function cacheRead(apiRoute: ApiRouteWithMiddlewares) {
 
     if (!cachedHeadersError && !cacheAgeError && !cachedResultError && cachedHeaders) {
       console.log("Cache middleware: HIT!");
-      const headers: OutgoingHttpHeaders = JSON.parse(cachedHeaders);
+      const headers: OutgoingHttpHeaders = JSON.parse(cachedHeaders as string);
 
       setAllHeaders(res, headers);
-      res.setHeader('cache-control', `max-age=${Math.max(0, cacheAge)}`)
+      res.setHeader('cache-control', `max-age=${Math.max(0, cacheAge as number)}`)
       res.status(200).send(cachedResult);
     } else {
       next();
