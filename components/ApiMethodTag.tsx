@@ -1,11 +1,10 @@
 import { Tag, TagProps } from '@chakra-ui/react';
-import { ApiMethod } from '@prisma/client';
 
 type Props = TagProps & {
-  method: ApiMethod;
+  method: any;
 };
 
-const config: Record<ApiMethod, TagProps> = {
+const config: Record<any, TagProps> = {
   GET: {
     children: "GET",
     colorScheme: "green",
