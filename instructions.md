@@ -1,5 +1,5 @@
-Steps too run project locally:
-- Spin up two docker containers, one for postgres database and another for maintaining the redis store using instructions given in command.md file
+Steps to run project locally:
+- Spin up two docker containers, one for postgres database and another for maintaining the redis store using instructions given in commands.md file
 - After both the containers are running fine, make a .env file by copying the keys given in .env.example file
 - A sample for the keys and values for the .env file is given below:
 ```
