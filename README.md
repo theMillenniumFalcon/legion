@@ -92,13 +92,3 @@ npm run build
     ├── public                  # assets
     ├── types                   # types
     └── ...
-
-### I have another question!
-
-Feel free to ask us on [Twitter](https://twitter.com/nishankstwt)! You can also email us at nishankpr2002@gmail.com.
-
-### Dev team
-
-- [Nishank Priydarshi](https://themillenniumfalcon.github.io)
-- [Gunjan A. Bhanarkar](https://github.com/gunjan1909)
-- [Naman Kumawat](https://www.instagram.com/nxmxn_21)
