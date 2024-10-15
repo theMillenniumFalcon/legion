@@ -1,10 +1,12 @@
-FROM node:14-bullseye-slim AS base
+FROM node:14-alpine AS base
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+  npm config set cache /usr/src/app/.npm && \
+  npm ci
 
 COPY . .
 
