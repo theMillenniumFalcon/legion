@@ -1,12 +1,16 @@
-FROM node:18-alpine
+FROM node:14-bullseye-slim AS base
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY package.json ./
+COPY package*.json ./
 
-RUN npm install
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+  npm config set cache /usr/src/app/.npm && \
+  npm ci
 
-COPY . /app
+COPY . .
+
+USER node
 
 RUN npx prisma db push
 
@@ -14,6 +18,4 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD ["./app"]
-
-USER node
+CMD ["npm", "run", "dev"]

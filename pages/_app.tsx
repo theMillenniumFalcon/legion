@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { Box, Flex, Container, ChakraProvider, extendTheme, ThemeConfig } from '@chakra-ui/react';
+import { Box, Flex, Container, ChakraProvider } from '@chakra-ui/react';
 import '@fontsource/raleway/700.css';
 import '@fontsource/raleway/800.css';
 import '@fontsource/inter/400.css';
@@ -9,17 +8,6 @@ import { Footer } from '@/components';
 import theme from '@/lib/chakra-theme';
 
 function App({ Component, pageProps }) {
-  const [showChild, setShowChild] = useState(false)
-  useEffect(() => {
-    setShowChild(true)
-  }, [])
-
-  if (!showChild) {
-    return null
-  }
-  if (typeof window === 'undefined') {
-    return <></>
-  } else {
     return (
       <ChakraProvider theme={theme}>
         <Box bg="gray.100">
@@ -42,7 +30,6 @@ function App({ Component, pageProps }) {
         </Box>
       </ChakraProvider>
     )
-  }
 }
 
 export default App;

@@ -27,7 +27,7 @@ Copy `.env.example` from the server folder to `.env` and add your private inform
 *Note: never commit this file, it should be ignored by Git*
 
 ```
-DATABASE_URL=
+POSTGRES_PRISMA_URL=
 REDIS_URL=
 SECRETS_KEY=
 SECRETS_IV=
