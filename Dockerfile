@@ -4,9 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN --mount=type=cache,target=/usr/src/app/.npm \
-  npm config set cache /usr/src/app/.npm && \
-  npm ci
+RUN npm install
 
 COPY . .
 
