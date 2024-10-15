@@ -24,7 +24,7 @@ export default async function getApiRoute(req: NextApiRequest, res: NextApiRespo
           },
         },
       },
-      rejectOnNotFound: true,
+      rejectOnNotFound: true as never,
     });
 
     // Replace the request query with the remaining query params so that _path is not misused
